@@ -24,12 +24,10 @@
 
  
     <script>
-      
     /*
       - Funktionen apiQuery er en callback function der initieres med:
-        a: en URL til et API endpoint 
+        a: en URL til et API endpoint
         b: en funktion til at behandle response fra web servicen.
-      
         Callback funktionen er helt ren og kan benyttes til API'er.
     */
       
@@ -37,7 +35,7 @@
         xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
           if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            console.log('responseText:' + xmlhttp.responseText);
+            console.log("responseText:" + xmlhttp.responseText);
             try {
               var data = JSON.parse(xmlhttp.responseText);
             } catch(err) {
@@ -52,7 +50,7 @@
       }
 /*
       - search funktionen initierer apiQuery funktionen med:
-        a: API endpoint URL'en samt 
+        a: API endpoint URL'en samt
         b: function(data), der tager varablen data fra apiQuery kaldets responseText og gør det muligt at tilgå data via data.searchResponse.result [...]
       
       - response variablen samler det visformat der skal vises i brugergrænsefladen.
@@ -72,8 +70,7 @@ function search() {
     var response = "<p>" + "Antal resultater: " + hitCount + "</p>" + "<p>" + title + " (" + date + ")" + "</br>" + "<span>" + "By: " + creator + "</span>" + "</p>";
     
    document.getElementById("searchresult").innerHTML = response;
-    
-      	});
+       });
      };
     </script>
   </body>
