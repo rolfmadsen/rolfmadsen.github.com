@@ -1,15 +1,80 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <title>Rolf Madsen</title>
+    <meta charset="UTF-8">
+    <title>Opensearch by rolfmadsen</title>
   </head>
-
   <body>
-    <title>Overskrift</title>
-    <p>Indhold</p>
+    <!-- 
+      - Form elementet gør at search() funktionen kan aktiveres ved at trykke på return i stedet for at aktivere Søg-knappen med musens cursor.
+      - Input-feltet med id searchField gør at værdien af feltet kan trækkes ud.
+      - Button elementet aktiverer formens action og initierer javascript:search();
+    -->
+    <form action="javascript:search();">
+      <input type="text" id="searchField">
+      <button type="submit">Søg</button>
+    </form>
+
+    <!--
+      - P-elementet med id searchresult gør at elementet kan tilføjes en værdi fra scriptet.
+    -->
+    
+    <p id="searchresult"></p>
+    
+
+ 
+    <script>
+      
+    /*
+      - Funktionen apiQuery er en callback function der initieres med:
+        a: en URL til et API endpoint 
+        b: en funktion til at behandle response fra web servicen.
+      
+        Callback funktionen er helt ren og kan benyttes til API'er.
+    */
+      
+      function apiQuery(url, callback) {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            console.log('responseText:' + xmlhttp.responseText);
+            try {
+              var data = JSON.parse(xmlhttp.responseText);
+            } catch(err) {
+              console.log(err.message + " in " + xmlhttp.responseText);
+              return;
+            }
+            callback(data);
+          }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      }
+/*
+      - search funktionen initierer apiQuery funktionen med:
+        a: API endpoint URL'en samt 
+        b: function(data), der tager varablen data fra apiQuery kaldets responseText og gør det muligt at tilgå data via data.searchResponse.result [...]
+      
+      - response variablen samler det visformat der skal vises i brugergrænsefladen.
+      
+      - document.getElementById indsætter via innerHTML værdien af response variablen i P-elementet med id'et searchresult.
+*/
+      
+function search() {
+  var query = document.getElementById("searchField").value;
+  
+  apiQuery("https://rolfmadsen.cloud.tyk.io/opensearch/5.0/?action=search&query=" + "%22" + query + "%22" + "&agency=100200&profile=test&start=1&stepValue=5&outputType=json", function(data) {
+    var hitCount = data.searchResponse.result.hitCount.$;
+    var title = data..searchResponse.result.searchResult["0"].collection.object["0"].record.title["0"].$;
+    var creator = data.searchResponse.result.searchResult[0].collection.object["0"].record.creator["0"].$;
+    var date = data.searchResponse.result.searchResult["0"].collection.object["0"].record.date["0"].$;
+    
+    var response = "<p>" + "Antal resultater: " + hitCount + "</p>" + "<p>" + title + " (" + date + ")" + "</br>" + "<span>" + "By: " + creator + "</span>" + "</p>";
+    
+   document.getElementById("searchresult").innerHTML = response;
+    
+      	});
+     };
+    </script>
   </body>
 </html>
