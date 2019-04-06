@@ -8,7 +8,7 @@
      
     <h1>Diagrammer</h1>
  
-    <h2>Test</h2>
+    <h2>JS sequence diagrams</h2>
 
     <div class="diagram">
         Title: Recommender - Loan data from FBS
@@ -35,18 +35,41 @@
         B->>C: Send token
         C->Test: tester
     </div>
-
-    <p>Source: <a href="https://reload.github.io/DDBCMS-FBS-Flow-Diagrams/">https://reload.github.io/DDBCMS-FBS-Flow-Diagrams/</a></p>
-    <p>
-        <a href="COPYING-js-sequence-diagram.html">JS sequence diagram - copyright © 2012-1017 Andrew Brampton</a></br>
-        <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
-    </p>
-
+ 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js"></script>
     <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+    <p>
+        Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></br>
+        BSD 2-Clause "Simplified" License: <a href="COPYING-js-sequence-diagram.html">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+    
+    <h2>Mermaid diagrams</h2>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+
+    <div class="mermaid">
+            graph LR
+                A --- B
+                B-->C[fa:fa-ban forbidden]
+                B-->D(fa:fa-spinner);
+    </div>
+
+    <p>
+            Documentation: <a href="https://mermaidjs.github.io/">https://mermaidjs.github.io/</a></br>
+            MIT license: <a href="COPYING-js-sequence-diagram.html">Mermaid - Copyright (c) 2014 - 2018 Knut Sveidqvist</a></br>
+            Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+        </p>
+
+    <p>Documentation: https://mermaidjs.github.io/</p>
+    
+    <h2>Diagrams</h2>
+    <p>Source: <a href="https://reload.github.io/DDBCMS-FBS-Flow-Diagrams/">https://reload.github.io/DDBCMS-FBS-Flow-Diagrams/</a></p>
 </body>
 </html>
