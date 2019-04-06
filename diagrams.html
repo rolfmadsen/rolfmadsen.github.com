@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture diagrams</title>
+
+</head>
+<body>
+     
+    <h1>Diagrammer</h1>
+ 
+    <h2>Test</h2>
+
+    <div class="diagram">
+        Title: Recommender - Loan data from FBS
+        Participant Patron
+        Participant DDB CMS
+        Participant Adgangsplatformen
+        Patron->DDB CMS: Log in.
+        DDB CMS->Adgangsplatformen: Authenticate user.
+        Adgangsplatformen->DDB CMS: User authenticated.
+        Patron->DDB CMS: View frontpage
+        DDB CMS->Patron: Personalize recommendations from loan history?
+        Patron->DDB CMS: Accept Personalized recommendations!
+        DDB CMS->Open list: POST GUID + Personalized recommendations true.
+    </div>
+
+    <div class="diagram">
+        Title: Avanceret diagram
+        Participant B
+        Participant A
+        A->B: Messages
+        B->A: egassem
+        C-->A: Request token
+        A->B: Forward request
+        B->>C: Send token
+        C->Test: tester
+    </div>
+
+    <p>Source: <a href="https://reload.github.io/DDBCMS-FBS-Flow-Diagrams/">https://reload.github.io/DDBCMS-FBS-Flow-Diagrams/</a></p>
+    <p>
+        <a href="COPYING-js-sequence-diagram.html">JS sequence diagram - copyright © 2012-1017 Andrew Brampton</a></br>
+        <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js"></script>
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+</body>
+</html>
