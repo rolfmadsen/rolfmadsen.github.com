@@ -13,6 +13,21 @@
 
     <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
 
+    <h4>Litteratursiden article to Datawell via CMS Content WS</h4>
+
+    <div class="diagram">
+        Title: Observer pattern: Add news article from Litteratursiden article to Datawell via CMS Content WS
+            participant Litteratursiden
+            participant CMS Content WS
+            participant Datawell
+
+            CMS Content WS->Litteratursiden: Subscribe articles.
+            Litteratursiden->Litteratursiden: Register subscription.
+            Litteratursiden->Litteratursiden: Create article and save.
+            Litteratursiden->CMS Content WS: Send articles.
+            CMS Content WS->Datawell: Add article to catalogue.
+    </div>
+
     <h4>Adding an image repository to DDB CMS and BPI</h4>
 
     <div class="diagram">
