@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <title>DDB Architecture diagrams</title>
-
 </head>
 <body>
      
@@ -24,9 +23,11 @@
             participant Image repository
 
             Editor A->DDB CMS: Add news article.
-            Editor A->External image source: Find and download image.
-            External image source->Editor A: Image file.
-            Editor A->DDB CMS: Upload image from external image source.
+            Editor A->External image source: Find image.
+            External image source->Editor A: Download image file to computer.
+            Editor A->Image repository: Find image.
+            Image repository->Editor A: Download image file to computer.
+            Editor A->DDB CMS: Upload image file from computer to DDB CMS.
             Editor A->DDB CMS: Crop image for chosen purpose.
             DDB CMS->Editor A: Is image published under an open license for sharing with other libraries?
             Editor A->DDB CMS: Yes.
