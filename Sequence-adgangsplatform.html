@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture diagrams</title>
+</head>
+<body>
+     
+    <h1>Sequence diagram - Adgangsplatformen</h1>
+ 
+    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
+
+    <h4>Litteratursiden article to Datawell via CMS Content WS</h4>
+
+    <div class="diagram">
+        Title: Observer pattern: Add news article from Litteratursiden article to Datawell via CMS Content WS
+            participant Oauth2.login.bib.dk
+            participant Enduser
+            participant Patron
+            participant Bibliotek.dk
+            participant Login.bib.dk
+            participant CULR
+            participant Biblioteks log ind
+            participant NemID
+            participant WAYF
+            participant New user
+
+            Enduser->Bibliotek.dk: (1) Open Bibliotek.dk.
+            Bibliotek.dk->Oauth2.login.bib.dk: Authenticate client.
+            Enduser->Bibliotek.dk: (2) Log in.
+            Bibliotek.dk->Login.bib.dk: (3) Authenticate user.
+            Login.bib.dk->Enduser: (4) Prompt for log in method - A: Biblioteks log ind | B: NemID | C: WAYF | D: New user.
+            Enduser->Login.bib.dk: (5) Choose A: Biblioteks log ind.
+                Login.bib.dk->Biblioteks log ind: Authenticate user.
+                    Login.bib.dk->Biblioteks: User authenticated
+                        Login.bib.dk->CULR: Request End user information
+                            CULR->Login.bib.dk: Return End user information
+            Enduser->Login.bib.dk: (5) Choose B: Nem ID.
+                Login.bib.dk->NemID: Authenticate user.
+                    Login.bib.dk->NemID: User authenticated.
+                        Login.bib.dk->CULR: Request End user information
+                            CULR->Login.bib.dk: Return End user information
+            Enduser->Login.bib.dk: (5) Choose C: WAYF.
+                Login.bib.dk->WAYF: Authenticate user.
+                    Login.bib.dk->WAYF: User authenticated
+            Enduser->Login.bib.dk: (5) Choose D: New user.
+                Login.bib.dk->DDB CMS: Request creation of user profile with NemID.
+                    DDB CMS->Login.bib.dk: Return User profile with NemID created.
+            </div>
+
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+    <p>
+        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+    
+    
+</body>
+</html>
