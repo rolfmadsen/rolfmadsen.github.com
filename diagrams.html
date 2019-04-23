@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <title>DDB Architecture diagrams</title>
-
 </head>
 <body>
      
@@ -10,20 +9,137 @@
  
     <h2>JS sequence diagrams</h2>
 
+    <h3>JS sequence diagrams - FBS integration daigrams by <a href="https://reload.dk/">Reload A/S</a></h3>
+
     <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
 
+    <h4>Litteratursiden article to Datawell via CMS Content WS</h4>
+
     <div class="diagram">
-        Title: Recommender - Loan data from FBS
-        Participant Patron
-        Participant DDB CMS
-        Participant Adgangsplatformen
-        Patron->DDB CMS: Log in.
-        DDB CMS->Adgangsplatformen: Authenticate user.
-        Adgangsplatformen->DDB CMS: User authenticated.
-        Patron->DDB CMS: View frontpage
-        DDB CMS->Patron: Personalize recommendations from loan history?
-        Patron->DDB CMS: Accept Personalized recommendations!
-        DDB CMS->Open list: POST GUID + Personalized recommendations true.
+        Title: Observer pattern: Add news article from Litteratursiden article to Datawell via CMS Content WS
+            participant Litteratursiden
+            participant CMS Content WS
+            participant Datawell
+
+            CMS Content WS->Litteratursiden: Subscribe articles.
+            Litteratursiden->Litteratursiden: Register subscription.
+            Litteratursiden->Litteratursiden: Create article and save.
+            Litteratursiden->CMS Content WS: Send articles.
+            CMS Content WS->Datawell: Add article to catalogue.
+    </div>
+
+    <h4>Adding an image repository to DDB CMS and BPI</h4>
+
+    <div class="diagram">
+        Title: Add news article with image to BPI - Editor on library A
+            participant Editor A
+            participant DDB CMS
+            participant BPI
+            participant Image repository
+
+            Editor A->DDB CMS: Add news article.
+            Editor A->External image source: Find image.
+            External image source->Editor A: Download image file to computer.
+            Editor A->Image repository: Find image.
+            Image repository->Editor A: Download image file to computer.
+            Editor A->DDB CMS: Upload image file from computer to DDB CMS.
+            Editor A->DDB CMS: Crop image for chosen purpose.
+            DDB CMS->Editor A: Is image published under an open license for sharing with other libraries?
+            Editor A->DDB CMS: Yes.
+            DDB CMS->DDB CMS: Add license information to image metadata.
+            Editor A->DDB CMS: Save and push to BPI.
+            DDB CMS->Image repository: Request save image.
+            Image repository->DDB CMS: Return absolute URL for image.
+            DDB CMS->DDB CMS: Save news article with image absolute URL.
+            DDB CMS->BPI: Request save news article with image absolute URL to BPI service.
+    </div>
+
+    <div class="diagram">
+        Title: Get a news article with image from BPI - Editor on library B
+            participant Editor B
+            participant DDB CMS
+            participant BPI
+            participant Image repository
+
+            Editor B->DDB CMS: Get news article from BPI.
+            DDB CMS->BPI: Request news article.
+            BPI->DDB CMS: News article with image absolute URL.
+            DDB CMS->Image repository: Request image.
+            Image repository->DDB CMS: Return image.
+            Editor B->DDB CMS: Edit news article.
+            Editor B->DDB CMS: Save article.
+    </div>
+
+    <h4>DDB CMS Recommendations - Request Loan history for each CPR number via Service Platform in FBS.</h4>
+
+    <div class="diagram">
+        Title: Recommender - Request Loan history for each CPR number via Service Platform in FBS
+            participant Patron
+            participant DDB CMS
+            participant Adgangsplatformen
+            participant Recommender
+            participant Open List
+            participant LoansToList Service
+            participant Open Platform
+            participant Service Platform
+            participant FBS
+            Patron->DDB CMS: View frontpage
+            Patron->DDB CMS: Log in
+            DDB CMS->Adgangsplatformen: Authenticate user
+            Adgangsplatformen->Borchk: Authenticate User
+            Borchk->Adgangsplatformen: User authenticated   
+            Adgangsplatformen->DDB CMS: User authenticated
+            DDB CMS->Patron: Promt for acceptance of personal recommendations
+            Patron->DDB CMS: Accept personal recommendations
+            DDB CMS->Open List: Add GUID + Accept personal recommendations
+            LoansToList Service->Open List: Retrieve all GUID's
+            LoansToList Service->Adgangsplatformen: Retrieve CPR numbers for each GUID
+            Adgangsplatformen->LoansToList Service: Return CPR numbers
+            LoansToList Service->Open Platform: Request user loans for each CPR numbers
+            Open Platform->FBS: Request loans for each CPR number
+            FBS->Open Platform: Return loans
+            Open Platform->LoansToList Service: Return loans
+            LoansToList Service->Open List: Save loans for each GUID
+            Patron->DDB CMS: View personalization carousel
+            DDB CMS->Recommender: Request personalized recommendations
+            Recommender->Open List: Request user lists based on GUID
+            Recommender->DDB CMS: Return recommendations
+            DDB CMS->Patron: Return recommendations
+    </div>
+
+    <h4>DDB CMS Recommendations - Request dump of Loan history in Service platform.</h4>
+
+    <div class="diagram">
+        Title: Recommender - Request dump of Loan history in Service platform
+            participant Patron
+            participant DDB CMS
+            participant Adgangsplatformen
+            participant Recommender
+            participant Open List
+            participant LoansToList Service
+            participant Open Platform
+            participant Service Platform
+            participant FBS
+            Patron->DDB CMS: View frontpage
+            Patron->DDB CMS: Log in
+            DDB CMS->Adgangsplatformen: Authenticate user
+            Adgangsplatformen->Borchk: Authenticate User
+            Borchk->Adgangsplatformen: User authenticated            
+            Adgangsplatformen->DDB CMS: User authenticated
+            DDB CMS->Patron: Promt for acceptance of personal recommendations
+            Patron->DDB CMS: Accept personal recommendations
+            DDB CMS->Open List: Add GUID + Accept personal recommendations
+            LoansToList Service->Open List: Retrieve all GUID's
+            LoansToList Service->Adgangsplatformen: Retrieve CPR numbers for each GUID
+            Adgangsplatformen->LoansToList Service: Return CPR numbers
+            LoansToList Service->Service Platform: Request daily incremental dump of loan data
+            Service Platform->LoansToList Service: Return incremental dump of loan data
+            LoansToList Service->Open List: Save loans for each CPR/GUID
+            Patron->DDB CMS: View personalization carousel
+            DDB CMS->Recommender: Request personalized recommendations
+            Recommender->Open List: Request user lists based on GUID
+            Recommender->DDB CMS: Return recommendations
+            DDB CMS->Patron: Return recommendations
     </div>
 
     <div class="diagram">
@@ -92,6 +208,8 @@
     </div>
 
     <h3>Gantt chart</h3>
+
+    <h4>Gantt chart Syntax</h4>
 
     <div class="mermaid">
     gantt
