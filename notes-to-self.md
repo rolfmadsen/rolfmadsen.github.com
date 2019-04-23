@@ -1,4 +1,4 @@
-# Discovery
+# Notes on how I got things to work ...
 
 [[toc]]
 
