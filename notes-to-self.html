@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Notes on how I got things to work</title>
+  </head>
+  <body>
+
+    <h1>Notes on how I got things to work</h1>
+
+    <H2>Development environment & build tools</H2>
+
+    <P>Local development environment:</P>
+    <li>
+        <ul>Windows 10 Pro & Windows Subsystem for Linux (WSL) Ubuntu</ul>
+        <ul>Git-scm</ul>
+        <ul>VS Code</ul>
+    </li>
+
+    <p>Online build tools:</p>
+    <li>
+      <ul>Github</ul>
+      <ul>Zeit now 2.0</ul>
+      <ul>Circle CI</ul>
+    </li>
+
+    <h3>Windows 10 Pro & Windows Subsystem for Linux (WSL)</h3>
+
+    <h4> Install Ubuntu (WSL)
+    
+    <li>
+      <ul>WIN-key search: "turn windows features on or off"</ul>
+      <ul>Restart computer</ul>
+      <ul>Open Windows store</ul>
+      <ul>Search for and install Ubuntu</ul>
+      <ul>Open Ubuntu</ul>
+    </li>
+
+    <p>Update Ununtu:</p>
+    
+    <pre>
+      <code class="prettyprint">
+        $ sudo apt-get update
+        $ sudo apt-get upgrade
+      </code>
+    </pre>
+    
+    <h4> Visual Studio Code (VS Code)
+    
+    <p>Download: <a href="https://code.visualstudio.com/download">https://code.visualstudio.com/download</a></p>
+
+    <p>Install: VS Code</p>
+    
+    <p>Ununtu terminal in VS Code:</p>
+    
+    <pre>
+      <code>
+          $ code .
+      </code>
+    </pre>
+
+    <p>Set WSL as default terminal:</p>
+    <li>
+        <ul>CTRL+Shift+p</ul>
+        <ul>Terminal: Selecte default shell</ul>
+        <ul>WSL Bash</ul>
+    </li>    
+
+    <p><i>Source: https://dev.to/micahshute/setting-up-windows-subsytem-for-linux-3b7n</i></p>
+    
+    <h4> NB. End of lines (EOL) in Windows vs. Linux
+    
+    <p>LF (Linux) vs. CRLF (Windows).</p>
+    
+    <p>Add configuration of EOL in:</p>
+    
+    <li>
+      <ul>Git-scm (during install).</ul>
+      <ul>VSCode (File/Preferences/Settings -> Search EOL -> Setting \n) </ul>
+    </li>
+    
+    <h3>Git-scm</h3>
+    
+    <li>
+      <ul>Download https://git-scm.com/download/win</ul>
+      <ul>Install Git-scm</ul>
+    </li>
+
+    <p>Follow installation instructions.</p>
+    
+    <li>
+      <ul>Choose Linux line endings "\n".</ul>
+      <ul>Log in to Github.</ul>
+    </li>
+
+    <h3>Circle CI
+    
+    <p>
+      <a href="https://github.com/niccai/zeit-now-with-circleci">https://github.com/niccai/zeit-now-with-circleci</a>
+    
+    <h2>Setup project boilerplate</h2>
+    
+    <h3>Navigation in Ubuntu on Windows 10.</h3>
+    
+    <p>Windows pathfinder cannot access Ubuntu root ({user}@{computer}:).</p>
+    <p>Ubunt CAN access Windows file-system.</p>
+    
+    <p>Create project folder in windows file-system to access files from Ubuntu terminal in VS Code:</p>
+    
+    <li>
+      <ul>Windows: c:\{path}\{project-folder}</ul>
+      <ul>Ubuntu: {user}@{computer-name}:/mnt/c/{path}/{project-folder}</ul>
+    </li>
+
+    <h3>Install Node.js, npm, express and Nodemon:</h3>
+    
+    <p>Terminal commands:</p>
+
+    <li>
+      <ul>$ mkdir "project-folder" && cd "project-folder"</ul>
+      <ul>$ sudo apt-get install nodejs</ul>
+      <ul>$ sudo apt-get install npm</ul>
+      <ul>$ sudo npm init</ul>
+      <ul>$ sudo apt install node-express-generator</ul>
+      <ul>$ sudo npm install -g nodemon</ul>
+    </li>
+
+    <p>Verify installation:</p>
+
+    <li>
+      <ul>$ node --version</ul>
+      <ul>$ npm --version</ul>
+      <ul>$ express --version</ul>
+      <ul>$ nodemon --version</ul>
+    </li>
+
+    <h4>Nodemon</h4>
+
+    <p>Nodemon reloads the http server when a file is served, avoiding numerous close serveren (CTRL+c) and start server iterations to see changes.</p>
+
+    <p>In package.json add</p>
+
+    <code class="prettyprint">
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index",
+        "dev": "nodemon"
+      },
+    </code>
+
+    <code class="prettyprint">
+      $ nodemon index
+    </code>
+
+    <p>Sources:</p>
+
+    <li>
+      <ul>https://nodejs.org/en/docs/</ul>
+      <ul>https://expressjs.com/en/starter/hello-world.html</ul>
+      <ul>https://www.npmjs.com/package/nodemon</ul>
+  </li>
+    
+    <h2>Programming langauges and libraries</h2>
+
+    <h3>Node.js</h3>
+
+    <p>Simple example:</p>
+    
+    <p><a href="https://zeit.co/docs/v2/deployments/official-builders/node-js-now-node/">https://zeit.co/docs/v2/deployments/official-builders/node-js-now-node/</a></p>
+    <p><a href="https://discovery.now.sh/?name=rolf">https://discovery.now.sh/?name=rolf</a></p>
+
+    <h3>Hello world node server in localhost</h3>
+
+    <pre>
+      <code class="prettyprint">
+        const http = require('http');
+
+        const hostname = '127.0.0.1';
+        const port = 3000;
+
+        const server = http.createServer((req, res) => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'text/plain');
+          res.end('Hello World\n');
+        });
+
+        server.listen(port, hostname, () => {
+          console.log(`Server running at http://$ {hostname}:$ {port}/`);
+        });
+      </code>
+    </pre>
+
+    <pre>
+      <code>
+          Start server: $ node app.js
+          Stop server: CTRL+c
+      </code>
+    </pre>
+
+    <p>Node.js courses:</p>
+
+    <p><a href="https://www.youtube.com/watch?v=fBNz5xF-Kx4">https://www.youtube.com/watch?v=fBNz5xF-Kx4</a></p>
+
+    <h3>Express</h3>
+
+    <p>Netlify: <a href="https://blog.bitsrc.io/react-production-deployment-part-1-netlify-703686631dd1">https://blog.bitsrc.io/react-production-deployment-part-1-netlify-703686631dd1</a></p> 
+    <p>Zeit now: <a href="https://blog.bitsrc.io/react-production-deployment-part-2-now-c81657c700b7">https://blog.bitsrc.io/react-production-deployment-part-2-now-c81657c700b7</a></p>
+
+    <p><a href="https://zeit.co/blog/serverless-express-js-lambdas-with-now-2">https://zeit.co/blog/serverless-express-js-lambdas-with-now-2</a></p>
+
+    <h3>React</h3>
+
+    <p><a href="https://zeit.co/guides/deploying-react-with-now-cra">https://zeit.co/guides/deploying-react-with-now-cra</a></p>
+
+    <p><a href="https://medium.com/rambel/guide-to-a-simple-fullstack-semi-monolithic-stack-that-will-scale-b3c8b1aff591">https://medium.com/rambel/guide-to-a-simple-fullstack-semi-monolithic-stack-that-will-scale-b3c8b1aff591</a></p>
+
+    <h3>Integrating with an API backend</h3>
+
+    <p><a href="https://www.fullstackreact.com/articles/using-create-react-app-with-a-server/">https://www.fullstackreact.com/articles/using-create-react-app-with-a-server/</a></p>https://www.fullstackreact.com/articles/using-create-react-app-with-a-server/
+
+    <p><i>Kilde: <a href="https://facebook.github.io/create-react-app/docs/integrating-with-an-api-backend">https://facebook.github.io/create-react-app/docs/integrating-with-an-api-backend</a></i></p>
+
+    <h2>Build tools and deploy pipeline</h2>
+
+    <h3>Zeit now</h3>
+
+    <p>Now 2.0 makes it possible to deploy new code that is committed to Github, by adding a now.json file to the Git repository.</p>
+
+    <li>
+      <ul>Log in to https://zeit.co/</ul>
+      <ul>Open https://zeit.co/account</ul>
+      <ul>Connect to Github</ul>
+      <ul>Add now.js file in Github repository</ul>
+    </li>
+
+    <p>Now.js example: </p>
+
+    <pre>
+      <code>
+    {
+        "version": 2,
+    	"regions": ["bru"],
+    	"name": "discovery",
+    	"alias": "discovery",
+        "public": false,
+        "builds": [
+            { "src": "*.js", "use": "@now/node" },
+            { "src": "*.md", "use": "@now/md" }
+        ],
+        "routes": [
+        { "src": "/(.*)", "dest": "/app.js" },
+        { "src": "/about", "dest": "/readme.md" }
+      	]
+    }
+      </code>
+    </pre>
+
+    <p>Commit an app to Github:</p>
+
+    <p><a href="https://github.com/{owner}/{repository}/">https://github.com/{owner}/{repository}/</a></p>
+
+    <p>View project in Zeit now: <a href="https://{project-alias}.now.sh/">https://{project-alias}.now.sh/</a></p>
+
+    <p>View Zeit Now project information: <a href="https://zeit.co/dashboard/project/{project-name}">https://zeit.co/dashboard/project/{project-name}</a></p>
+
+    <p>Documentation: <a href="_https://zeit.co/docs/v2/integrations/now-for-github_">_https://zeit.co/docs/v2/integrations/now-for-github_</a></p>
+
+    <h3>Secret or private variables</h3>
+    
+    <li>
+      <ul>https://zeit.co/docs/api/v2/#endpoints/secrets</ul>
+      <ul>https://zeit.co/docs/v2/deployments/environment-variables-and-secrets/</ul>
+      <ul>https://zeit.co/docs/v2/deployments/environment-variables-and-secrets/#from-now.json</ul>
+    </li>
+    
+    <h2>Staging- and production environments</h2>
+
+    <P>Now 2.0 handles environments in different ways.</P>
+
+    <p>Alias:</p>
+    
+    <li>
+      <ul>https://zeit.co/docs/v2/integrations/now-for-github</ul>
+      <ul>https://zeit.co/docs/v2/deployments/builds/</ul>
+      <ul>https://zeit.co/docs/v2/deployments/configuration/#build.env</ul>
+      <ul>https://zeit.co/docs/v2/domains-and-aliases/introduction/</ul>
+      <ul>https://zeit.co/docs/v2/deployments/concepts/urls/</ul>
+      <ul>https://zeit.co/docs/v2/deployments/configuration/</ul>
+    </li>
+    
+    <p>micro:</p>
+
+    <pre>
+      <code>
+        $  npm i micro-proxy
+      </code>
+    </pre>
+
+    <p>Sources:</p>
+
+    <li>
+      <ul>_https://github.com/zeit/micro_</ul>
+      <ul>_https://zeit.co/blog/micro-proxy_</ul>
+    </li>
+    <h2>Online tutorials</h2>
+
+    <li>
+      <ul><a href="https://discovery.now.sh/?name=readme">https://discovery.now.sh/?name=readme</a></ul>
+      <ul><a href="https://zeit.co/docs/v2/deployments/routes/">https://zeit.co/docs/v2/deployments/routes/</a></ul>
+      <ul><a href="https://zeit.co/docs/v2/deployments/environment-variables-and-secrets">https://zeit.co/docs/v2/deployments/environment-variables-and-secrets</a></ul>
+      <ul><a href="https://zeit.co/examples/nodejs-express/">https://zeit.co/examples/nodejs-express/</a></ul>
+      <ul><a href="https://zeit.co/guides/deploying-react-with-now-cra">https://zeit.co/guides/deploying-react-with-now-cra</a></ul>
+      <ul><a href="https://blog.bitsrc.io/react-production-deployment-part-2-now-c81657c700b7">https://blog.bitsrc.io/react-production-deployment-part-2-now-c81657c700b7</a></ul>
+      <ul><a href="https://github.com/rolfmadsen/opensearch/blob/gh-pages/index.html">https://github.com/rolfmadsen/opensearch/blob/gh-pages/index.html</a></ul>
+    </li>
+  </body>
+</html>
