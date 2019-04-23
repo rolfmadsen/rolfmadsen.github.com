@@ -1,4 +1,4 @@
-# Notes on how I got things to work ...
+# Notes on how I got things to work
 
 [[toc]]
 
