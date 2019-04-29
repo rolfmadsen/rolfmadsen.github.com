@@ -40,8 +40,12 @@
             Editor A->DDB CMS: Add news article.
             Editor A->External image source: Find image.
             External image source->Editor A: Download image file to computer.
-            Editor A->Image repository: Find image.
-            Image repository->Editor A: Download image file to computer.
+            Editor A->DDB CMS: Find image in Media library.
+            DDB CMS->Image repository: Request images.
+            Image repository->DDB CMS: Return images to Media library.
+            DDB CMS->Editor A: Display images from Image repository.
+            Editor A->DDB CMS: Select image.
+            DDB CMS->Editor A: Image added to news article.
             Editor A->DDB CMS: Upload image file from computer to DDB CMS.
             Editor A->DDB CMS: Crop image for chosen purpose.
             DDB CMS->Editor A: Is image published under an open license for sharing with other libraries?
