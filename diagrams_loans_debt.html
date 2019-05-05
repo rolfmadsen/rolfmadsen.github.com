@@ -11,13 +11,7 @@
 
     <div class="diagram">
         Title: Patron loan history acceptance flow.
-
-            participant: Patron
-            participant: DDB CMS
-            participant: FBS
-            participant: DIBS
-            participant: Economy System
-            
+        
             Patron->DDB CMS: Open Loan status debts.
             DDB CMS->FBS: Request Patron debt (Fees).
             FBS->DDB CMS: Return list of debts.
