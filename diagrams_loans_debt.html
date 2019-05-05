@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture sequence diagrams - Loan debt</title>
+</head>
+<body>
+
+    <h1>Loan debt</h1>
+ 
+    <h2> Loan debt - Patron payment</h2>
+
+    <div class="diagram">
+        Title: Patron loan history acceptance flow.
+
+            participant: Patron
+            participant: DDB CMS
+            participant: FBS
+            participant: DIBS
+            participant: Economy System
+            
+            Patron->DDB CMS: Open Loan status debts.
+            DDB CMS->FBS: Request Patron debt (Fees).
+            FBS->DDB CMS: Return list of debts.
+            DDB CMS->Patron: Display list of debts.
+            Patron->DDB CMS: Pay debt.
+            DDB CMS->DIBS: Redirect to DIBS payment
+            DIBS->Patron: Prompt for payment.
+            Patron->DIBS: Pays debt.
+            DIBS->DDB CMS: Return information of payment
+            DDB CMS->DDB CMS: Add to DIBS reports (/admin/config/payment/ding_dibs/reports: ORDER ID | TRANSACTION ID | DATE | USER | TEXT | AMOUNT | CLEARED	PAID | CAPTURED)
+            DDB CMS->Patron: Display updated list of debts.
+    </div>
+
+    <h3>Questions</h3>
+
+    <ul>
+        <li>Are any other systems involved in the dataflow?</li>
+        <li>Which data elements are exchanged between the systems?</li>
+        <li>Which data elements are needed for a fully automated integration between FBS, DIBS and the Economy systems in the municipalities?</li>
+    </ul>
+
+    <p>
+        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+    
+    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>  
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+</body>
+</html>
