@@ -10,8 +10,8 @@
     <h2> Loan debt - Patron payment</h2>
 
     <div class="diagram">
-        Title: Patron loan history acceptance flow.
-        
+        Title: Patron loan history acceptance flow
+
             Patron->DDB CMS: Open Loan status debts.
             DDB CMS->FBS: Request Patron debt (Fees).
             FBS->DDB CMS: Return list of debts.
@@ -21,7 +21,7 @@
             DIBS->Patron: Prompt for payment.
             Patron->DIBS: Pays debt.
             DIBS->DDB CMS: Return information of payment
-            DDB CMS->DDB CMS: Add to DIBS reports (/admin/config/payment/ding_dibs/reports: ORDER ID | TRANSACTION ID | DATE | USER | TEXT | AMOUNT | CLEARED	PAID | CAPTURED)
+            Note right of DDB CMS: Add to DIBS reports: \n (/admin/config/payment/ding_dibs/reports: \n ORDER ID | TRANSACTION ID | DATE | USER | \n TEXT | AMOUNT | CLEARED	PAID | CAPTURED)
             DDB CMS->Patron: Display updated list of debts.
     </div>
 
