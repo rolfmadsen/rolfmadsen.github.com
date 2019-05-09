@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture sequence diagrams - Patron loans debt payment</title>
+</head>
+<body>
+
+    <h1>Patron loans debt payment</h1>
+
+    <div class="diagram">
+        Title: Patron loan - debt payment data flow
+
+            Patron->DDB CMS: Open Loan status debts.
+            DDB CMS->FBS: Request Patron debt (Fees).
+            FBS->DDB CMS: Return list of debts.
+            DDB CMS->Patron: Display list of debts.
+            Patron->DDB CMS: Pay debt.
+            DDB CMS->DIBS: Redirect to DIBS payment
+            DIBS->Patron: Prompt for payment.
+            Patron->DIBS: Pays debt.
+            DIBS->DDB CMS: Return information of payment
+            Note right of DDB CMS: Add to DIBS reports: \n (/admin/config/payment/ding_dibs/reports: \n ORDER ID | TRANSACTION ID | DATE | USER | \n TEXT | AMOUNT | CLEARED	PAID | CAPTURED)
+            DDB CMS->Economy System: Post amount, Order ID and Transaction ID.
+            Note right of Economy System: More info needed. \n See https://platform.dandigbib.org/issues/3877 for details.
+            DDB CMS->Patron: Display updated list of debts.
+    </div>
+
+    <h2>Questions</h2>
+
+    <ul>
+        <li>Are any other systems involved in the dataflow?</li>
+        <li>Which data elements are exchanged between the systems?</li>
+        <li>Which data elements are needed for a fully automated integration between FBS, DIBS and the Economy systems in the municipalities?</li>
+    </ul>
+
+    <p>NB. A project (Unknown reference) is already initiaded integrate FBS via Service Platformen with the economy systems.</p>
+
+    <p>It may be the integration mentioned in the following documents:</p>
+
+    <ul>
+        <li><a href="https://www.kombit.dk/sites/default/files/user_upload/documents/Bibliotekssystem/Drejeboeger/FBS%20Faktura%20integration%20-%20Trinvis%20guide%20til%20bestilllingsblanket.pdf">FÆLLES BIBLIOTEKSSYSTEM - TRINVIS GUIDE TIL BESTILLING AF INTEGRATION MELLEM FBS OG ØKONOMISYSTEM</a></li>
+        <li><a href="https://www.kombit.dk/sites/default/files/user_upload/documents/Bibliotekssystem/Beskrivelser/Integration%20mellem%20FBS%20og%20%C3%B8konomi-debitor%20kommunikation%20final.pdf">Integration mellem FBS og økonomi-/debitorsystemer</a></li>
+    </ul>
+
+    <p>
+        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+    
+    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>  
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+</body>
+</html>

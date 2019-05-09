@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>DDB Architecture diagrams</title>
+    <title>DDB Architecture sequence diagrams</title>
 </head>
 <body>
      
-    <h1>Diagrammer</h1>
+    <h1>Sequence diagrams</h1>
  
-    <h2>JS sequence diagrams</h2>
+    <h2>DDB CMS - sequence diagrams</h2>
 
-    <h3>JS sequence diagrams - FBS integration daigrams by <a href="https://reload.dk/">Reload A/S</a></h3>
+    <h3>Loan history dataflow</h30>
 
-    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
+    <p>Dataflow for the import of user loan history and subsequent use in components such as loan history and personal recommendations.</p>
 
-    <h4>Loan history dataflow</h4>
-
-    <h5>1: Patron loan history acceptance flow</h5>
+    <h4>1: Patron loan history acceptance flow</h4>
 
     <div class="diagram">
         Title: 1: Patron loan history acceptance flow
@@ -30,7 +28,7 @@
             
     </div>
 
-    <h5>2: Loan history web service data accumulation flow</h5>
+    <h4>2: Loan history web service data accumulation flow</h4>
 
     <div class="diagram">
         Title: 2: Loan history web service data accumulation flow
@@ -46,7 +44,7 @@
 
     </div>
 
-    <h5>3: Patron recommendation flow</h5>
+    <h4>3: Patron recommendation flow</h4>
 
     <div class="diagram">
         Title:3:  Patron recommendation flow
@@ -61,7 +59,9 @@
 
     </div>
 
-    <h4>Litteratursiden article to Datawell via CMS Content WS</h4>
+    <h3>Litteratursiden - Eksport of content to the Datawell</h3>
+
+    <p>Dataflow for the export af articles from Litteratursiden to the Datawell via CMS Content WS</p>
 
     <div class="diagram">
         Title: Observer pattern: Add news article from Litteratursiden article to Datawell via CMS Content WS
@@ -76,7 +76,9 @@
             CMS Content WS->Datawell: Add article to catalogue.
     </div>
 
-    <h4>Adding an image repository to DDB CMS and BPI</h4>
+    <h3>DDB CMS image repository</h3>
+
+    <p>Dataflow for adding external image source and image repository to the editorial userflow in DDB CMS in combination with Biblioteks Produceret Indhold (BPI).</p>
 
     <div class="diagram">
         Title: Add news article with image to BPI - Editor on library A
@@ -122,103 +124,30 @@
             Editor B->DDB CMS: Save article.
     </div>
 
-    <h4>DDB CMS Recommendations - Request Loan history for each CPR number via Service Platform in FBS.</h4>
+    <h3>JS sequence diagram - Syntax</h3>
 
-    <div class="diagram">
-        Title: Recommender - Request Loan history for each CPR number via Service Platform in FBS
-            participant Patron
-            participant DDB CMS
-            participant Adgangsplatformen
-            participant Recommender
-            participant Open List
-            participant LoansToList Service
-            participant Open Platform
-            participant Service Platform
-            participant FBS
-            Patron->DDB CMS: View frontpage
-            Patron->DDB CMS: Log in
-            DDB CMS->Adgangsplatformen: Authenticate user
-            Adgangsplatformen->Borchk: Authenticate User
-            Borchk->Adgangsplatformen: User authenticated   
-            Adgangsplatformen->DDB CMS: User authenticated
-            DDB CMS->Patron: Promt for acceptance of personal recommendations
-            Patron->DDB CMS: Accept personal recommendations
-            DDB CMS->Open List: Add GUID + Accept personal recommendations
-            LoansToList Service->Open List: Retrieve all GUID's
-            LoansToList Service->Adgangsplatformen: Retrieve CPR numbers for each GUID
-            Adgangsplatformen->LoansToList Service: Return CPR numbers
-            LoansToList Service->Open Platform: Request user loans for each CPR numbers
-            Open Platform->FBS: Request loans for each CPR number
-            FBS->Open Platform: Return loans
-            Open Platform->LoansToList Service: Return loans
-            LoansToList Service->Open List: Save loans for each GUID
-            Patron->DDB CMS: View personalization carousel
-            DDB CMS->Recommender: Request personalized recommendations
-            Recommender->Open List: Request user lists based on GUID
-            Recommender->DDB CMS: Return recommendations
-            DDB CMS->Patron: Return recommendations
-    </div>
-
-    <h4>DDB CMS Recommendations - Request dump of Loan history in Service platform.</h4>
-
-    <div class="diagram">
-        Title: Recommender - Request dump of Loan history in Service platform
-            participant Patron
-            participant DDB CMS
-            participant Adgangsplatformen
-            participant Recommender
-            participant Open List
-            participant LoansToList Service
-            participant Open Platform
-            participant Service Platform
-            participant FBS
-            Patron->DDB CMS: View frontpage
-            Patron->DDB CMS: Log in
-            DDB CMS->Adgangsplatformen: Authenticate user
-            Adgangsplatformen->Borchk: Authenticate User
-            Borchk->Adgangsplatformen: User authenticated            
-            Adgangsplatformen->DDB CMS: User authenticated
-            DDB CMS->Patron: Promt for acceptance of personal recommendations
-            Patron->DDB CMS: Accept personal recommendations
-            DDB CMS->Open List: Add GUID + Accept personal recommendations
-            LoansToList Service->Open List: Retrieve all GUID's
-            LoansToList Service->Adgangsplatformen: Retrieve CPR numbers for each GUID
-            Adgangsplatformen->LoansToList Service: Return CPR numbers
-            LoansToList Service->Service Platform: Request daily incremental dump of loan data
-            Service Platform->LoansToList Service: Return incremental dump of loan data
-            LoansToList Service->Open List: Save loans for each CPR/GUID
-            Patron->DDB CMS: View personalization carousel
-            DDB CMS->Recommender: Request personalized recommendations
-            Recommender->Open List: Request user lists based on GUID
-            Recommender->DDB CMS: Return recommendations
-            DDB CMS->Patron: Return recommendations
-    </div>
-
-    <div class="diagram">
-        Title: Avanceret diagram
-        Participant B
-        Participant A
-        A->B: Messages
-        B->A: egassem
-        C-->A: Request token
-        A->B: Forward request
-        B->>C: Send token
-        C->Test: tester
-    </div>
- 
+    <!-- JS libraries to render diagrams from JS sequence diagrams syntax -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>
     <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
-    
+
+    <h3>JS sequence diagrams - FBS integration daigrams by <a href="https://reload.dk/">Reload A/S</a></h3>
+
     <p>
         BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
         Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
     </p>
-    
-    <h2>Mermaid diagrams</h2>
 
+    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
+
+    
+    <h2>Diagram systems</h2>
+
+    <h3>JS sequence diagram - Syntax</h3>
+
+    <h3>>Mermaid diagrams - Syntax</h3>
     <p>Documentation: <a href="https://mermaidjs.github.io/">https://mermaidjs.github.io/</a></p>
 
     <p>Live view for test purposes: <a href="https://mermaidjs.github.io/mermaid-live-editor/">https://mermaidjs.github.io/mermaid-live-editor</a></p>
@@ -318,7 +247,7 @@
 
     </div>
 
-    <h3>Message to selv in loop</h3>
+    <h3>Message to self in loop</h3>
 
     <div class="mermaid">
 
