@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture diagrams</title>
+</head>
+<body>
+
+    <h1>User generated material lists</h1>
+    
+    <pre>
+        <code>
+    POST    /openlist/api/2/authenticateClient:agency
+    POST    /openlist/api/2/authenticatePatron:guid
+    POST    /openlist/api/2/addMaterialToMaterial-list:pid
+    GET     /openlist/api/2/Material-list:list-id
+    DELETE  /openlist/api/2/removeMaterial:pid
+    GET     /openlist/api/2/loanhistory:guid
+        </code>
+    </pre>
+
+    <div class="diagram">
+        Title: 1: User generated material lists data flow
+
+            DDB CMS->Oauth2.login.bib.dk: Request autentication.
+            Oauth2.login.bib.dk->DDB CMS: Authentication granted.
+            Note left of Oauth2.login.bib.dk: Return token.
+            
+            DDB CMS->Openlist: Authenticate with token.
+            Openlist->Oauth2.login.bib.dk: Verify token.
+            Oauth2.login.bib.dk-Openlist: Token verified.
+            Openlist->DDB CMS: Authenticated.
+
+            Patron->DDB CMS: Log in.
+            DDB CMS->Adgangsplatform: Request - Authenticate User.
+            Adgangsplatform->DDB CMS: Return - Authenticated user.
+            Note left of Adgangsplatform: Return token.
+            DDB CMS->Patron: Display - Logged in.
+            
+            Patron->DDB CMS: Add material to list.
+            DDB CMS->Openlist: Post - GUID (User id) + PID (material id).
+            Openlist->DDB CMS: Return - Material added to list.
+            
+    </div>
+ 
+    <p>
+        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>  
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+</body>
+</html>

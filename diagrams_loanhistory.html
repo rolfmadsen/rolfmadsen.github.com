@@ -22,7 +22,7 @@
             
     </div>
 
-    <h2>2: Loan history web service data accumulation flow</h2>
+    <h2>2: Anonymous Loan history web service data accumulation flow</h2>
 
     <div class="diagram">
         Title: 2: Loan history web service data accumulation flow
@@ -30,18 +30,29 @@
             FBS->Service Platform: Daily data dump of loan history (PatronID + PID).
             Service Platform->Danmarks Statistik: Data dump is "sanitized", enriched and anonymized.
             Danmarks Statistik->Faktor: Delivery of statistics based on loan history etc.
-            
-            Loanhistory WS->Service Platform: Request daily changes to loan history for all users.
+            Faktor->Anonymous Loan History WS: Export anonymized loan history.
+
+    </div>
+
+    <h2>3: Personal Loan history web service data accumulation flow</h2>
+
+    <div class="diagram">
+        Title: 3: Loan history web service data accumulation flow
+         
+            FBS->Service Platform: Daily data dump of loan history (PatronID + PID).
+            Loanhistory WS->Service Platform: Request latest changes to loan history.
+            Service Platform->Loanhistory WS: Return latest changes to loan history.
             Loanhistory WS->Subscription WS: Request list of users with "Yes to save loan history".
             Subscription WS->Loanhistory WS: Return Patron ID for each user with "Yes to save loan history".
             Loanhistory WS->Loanhistory WS: For each user: Extract and save loan history.
 
     </div>
 
-    <h2>3: Patron recommendation flow</h2>
+
+    <h2>4: Patron recommendation flow</h2>
 
     <div class="diagram">
-        Title:3:  Patron recommendation flow
+        Title:4:  Patron recommendation flow
 
             Patron->Biblioteket app: Request recommendations.
             Biblioteket app->Recommendation WS: Request recommendations for Patron X (Patron ID || GUID).
