@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture diagrams</title>
+</head>
+<body>
+     
+    <h1>Authenticate client and client to server data flows</h1>
+ 
+    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
+
+    <div class="diagram">
+        Title: Authenticate client data flow
+
+            DDB CMS->Oauth2.login.bib.dk: Request authentication (Client_id + Client_secret).
+            Oauth2.login.bib.dk->DDB CMS: Return authenticated (Access token)
+
+            DDB CMS->Open Platform: Request authentication (Access token).
+            Open Platform->Oauth2 authorization: Request authorization (Access token).
+            Oauth2 authorization->Open Platform: Return authorized (Attributes)
+            
+            DDB CMS->Openlist: Request authentication (Access token).
+            Openlist->Oauth2 authorization: Request authorization (Access token).
+            Oauth2 authorization->Open Platform: Return authorized (Attributes)
+
+            </div>
+
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+    <p>
+        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+    
+    
+</body>
+</html>
