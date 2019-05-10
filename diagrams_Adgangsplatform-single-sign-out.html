@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture diagrams</title>
+</head>
+<body>
+     
+    <h1>Adgangsplatform - Single sign-out</h1>
+ 
+    <div class="diagram">
+        Title: Adgangsplatform - Single sign-out
+
+            Note left of Patron: Prerequisite - Patron is logged in \n on DDB CMS and Ereolen.
+            Patron->DDB CMS: Log out.
+            DDB CMS->login.bib.dk: Request list of clients where the patron is logged in.
+            login.bib.dk->DDB CMS: Return list of clients.
+            DDB CMS->Patron: Promt for log out of current or all clients.
+            
+            Patron->DDB CMS: OPTION 1 - Log out for current client.
+                DDB CMS->DDB CMS: Remove logged in cookie.
+            
+            Patron->DDB CMS: OPTION 2 - Log out for all client.
+                DDB CMS->DDB CMS: Remove logged in cookie.
+                DDB CMS->login.bib.dk: Request - Single sign-out for all clients.
+                login.bib.dk->login.bib.dk: List clients the patron is logged into.
+                login.bib.dk->login.bib.dk: Remove logged in cookie.
+                login.bib.dk->Ereolen: Request - Single sign-out.
+                Ereolen->Ereolen: Remove logged in cookie.            
+            </div>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+    <p>
+        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a></br>
+        Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a>
+    </p>
+    
+</body>
+</html>
