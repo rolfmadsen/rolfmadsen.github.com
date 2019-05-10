@@ -10,21 +10,26 @@
     <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
 
     <div class="diagram">
-        Title: Authenticate client data flow
+        Title: Authenticate multiple client-server data flow
 
             DDB CMS->Oauth2.login.bib.dk: Request authentication (Client_id + Client_secret).
             Oauth2.login.bib.dk->DDB CMS: Return authenticated (Access token)
+            Patron->DDB CMS: Log ind.
+            DDB CMS->Oauth2.login.bib.dk: Redirect patron (Agency).
+            Oauth2.login.bib.dk->Patron: Prompt for log in.
+            Patron->Oauth2.login.bib.dk: Log in (CPR-nr. + PIN code).
+            Oauth2.login.bib.dk->DDB CMS: Redirect patron.
 
-            DDB CMS->Open Platform: Request authentication (Access token).
-            Open Platform->Oauth2 authorization: Request authorization (Access token).
+            DDB CMS->Open Platform: Request client authentication (Access token).
+            Open Platform->Oauth2 authorization: Request verification of client authorization (Access token).
             Oauth2 authorization->Open Platform: Return authorized (Attributes)
-            
+            Open Platform->DDB CMS: Return authorized.
+
             DDB CMS->Openlist: Request authentication (Access token).
-            Openlist->Oauth2 authorization: Request authorization (Access token).
-            Oauth2 authorization->Open Platform: Return authorized (Attributes)
-
+            Openlist->Oauth2 authorization: Request verification of client authorization (Access token).
+            Oauth2 authorization->Openlist: Return authorized (Attributes).
+            Openlist->DDB CMS: Return authorized.
             </div>
-
     
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
@@ -36,7 +41,6 @@
         BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
         Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
     </p>
-    
     
 </body>
 </html>
