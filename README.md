@@ -2,4 +2,4 @@
 
 /DDB-Arkitektur-sekvensdiagrammer/
 
-![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/plantuml/plantuml-server/master/src/main/webapp/resource/test2diagrams.txt)
+![cached image](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/rolfmadsen/rolfmadsen.github.com/master/plantuml/adgangsplatform_single-sign-out)
