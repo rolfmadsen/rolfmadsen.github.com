@@ -19,7 +19,6 @@ Patron->Browser: Log out.
                             Browser->Browser: Remove logged in cookie
                             Browser->"DDB CMS": Request log out of all clients.
                             "DDB CMS"->login.bib.dk: Request - Single sign-out for all clients.
-                            
                             login.bib.dk->login.bib.dk: List clients the patron is logged into.
                             login.bib.dk->login.bib.dk: Remove logged in cookie.
                             login.bib.dk->Ereolen: Request - Single sign-out.
@@ -27,9 +26,7 @@ Patron->Browser: Log out.
                             Ereolen->login.bib.dk: Status logged out (T/f)
                             login.bib.dk->"DDB CMS": Return logged out of all clients.
                             "DDB CMS"->Patron: Display - Logged out of all clients.
-                        end
                     end
-                end
                 group IF log out from ../user
                     "DDB CMS"->Browser: Redirect patron to frontpage
                     else ELSE log out from other pages.
