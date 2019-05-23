@@ -1,36 +1,28 @@
 @startuml
-Patron->Browser: Log out.
-            Browser->"DDB CMS": Log out.
-            "DDB CMS"->login.bib.dk: Request list of clients where the patron is logged in.
-            login.bib.dk->"DDB CMS": Return list of clients.
-            group IF Patron logged into only one client
-                "DDB CMS"->Browser: Remove logged in cookie.
-                Browser->"DDB CMS": Cookie removed (T/f)
-                "DDB CMS"->Patron: Display - Logged out.
-                else ELSEIF Patron logged into more than one client.
-                    "DDB CMS"->Browser: Return list of logged in clients.
-                    Browser->Patron: Prompt for choice to log out of current or all clients.
-                    group Log out of just the current client
-                        Patron->Browser: Log out of current client.
-                        Browser->Browser: Remove logged in cookie.
-                        Browser->Patron: Display - Logged out of current client.
-                        else Log out of all clients
-                            Patron->Browser: Log out of all clients.
-                            Browser->Browser: Remove logged in cookie
-                            Browser->"DDB CMS": Request log out of all clients.
-                            "DDB CMS"->login.bib.dk: Request - Single sign-out for all clients.
-                            login.bib.dk->login.bib.dk: List clients the patron is logged into.
-                            login.bib.dk->login.bib.dk: Remove logged in cookie.
-                            login.bib.dk->Ereolen: Request - Single sign-out.
-                            Ereolen->Ereolen: Remove logged in cookie.
-                            Ereolen->login.bib.dk: Status logged out (T/f)
-                            login.bib.dk->"DDB CMS": Return logged out of all clients.
-                            "DDB CMS"->Patron: Display - Logged out of all clients.
-                    end
-                group IF log out from ../user
-                    "DDB CMS"->Browser: Redirect patron to frontpage
-                    else ELSE log out from other pages.
-                    "DDB CMS"->Browser: Do not redirect user but update current page
-                end
-            end
+"Patron"->"Browser": Log out.
+    "Browser"->"DDB CMS": Log out.
+        "DDB CMS"->"login.bib.dk": Request - Log out.
+            "login.bib.dk"->"login.bib.dk": List clients the patron is logged into.
+                "login.bib.dk"->"login.bib.dk": Remove logged in cookie.
+                    "login.bib.dk"->"DDB CMS": Requst - Remove logged in cookie.
+                        "DDB CMS"->"Browser": Requst - Remove logged in cookie.
+                            "Browser"->"Browser": Remove logged in cookie.
+                                "Browser"->"DDB CMS": Return - Cookie removed (T/f)
+                                    "DDB CMS"->"login.bib.dk": Status logged out (T/f)
+                                        "DDB CMS"->"Browser": Display - Logged out.
+                                            "Browser"->"Patron": Display - Logged out.
+    group Patron logged into more than one client.
+        "login.bib.dk"->"Ereolen": Request - Remove logged in cookie.
+            "Ereolen"->"Browser": Requst - Remove logged in cookie.
+                "Browser"->"Browser": Remove logged in cookie.
+                    "Browser"->"Ereolen": Return - Cookie removed (T/f).
+                        "Ereolen"->"login.bib.dk": Status logged out (T/f).
+                            "login.bib.dk"->"DDB CMS": Return logged out of all clients.
+                                "DDB CMS"->"Patron": Display - Logged out of all clients.
+    end
+    group Logout is initiated from userpages (../user) like profile og loan status.
+        "DDB CMS"->"Browser": Redirect patron to frontpage
+        else Log out is initiated from any other pages.
+        "DDB CMS"->"Browser": Do not redirect user but update current page
+    end
 @enduml
