@@ -14,12 +14,12 @@ title Adgangsplatformen - log out of multiple clients.
         "Client"->"login.bib.dk": Status logged out (T/f).
         "Client"->"Browser": Display - Logged out.
         "Browser"->"Patron": Display - Logged out.
-    end
-    group IF user initiates log out from userpages like profile og loan status (../user).
-        "Client"->"Browser": Redirect patron to frontpage.
-        "Browser"->"Patron": Display frontpage.
-        else ELSE log out is initiated from any other pages.
-        "Client"->"Browser": Do not redirect user but update current page.
-        "Browser"->"Patron": Reload current page.
+        group IF user initiates log out from userpages like profile og loan status (../user).
+            "Client"->"Browser": Redirect patron to frontpage.
+            "Browser"->"Patron": Display frontpage.
+            else ELSE log out is initiated from any other pages.
+            "Client"->"Browser": Do not redirect user but update current page.
+            "Browser"->"Patron": Reload current page.
+        end
     end
 @enduml
