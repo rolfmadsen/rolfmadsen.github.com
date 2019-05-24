@@ -6,55 +6,11 @@
 <body>
      
     <h1>Adgangsplatform - Single sign-out</h1>
- 
-    <div class="diagram">
-        Title: Adgangsplatform - Single sign-out
 
-            Note left of Patron: Prerequisite - Patron is logged in \n on DDB CMS and Ereolen.
-            Patron->Browser: Log out.
-            Browser->DDB CMS: Log out.
-            DDB CMS->login.bib.dk: Request list of clients where the patron is logged in.
-            login.bib.dk->DDB CMS: Return list of clients.
-            DDB CMS->DDB CMS: If user is logged into one client then use Option 1 else Option 2.
-                        
-            DDB CMS->Browser: OPTION 1 - Remove logged in cookie.
-            Browser->Patron: Display - Logged out.
-            
-            DDB CMS->Browser: OPTION 2 - Return list of logged in clients.
-            Browser->Patron: Prompt for choice to log out of current or all clients.
-            
-            Patron->Browser: OPTION 2a - Log out of current client.
-            Browser->Browser: Remove logged in cookie.
-            Browser->Patron: Display - Logged out of current client.
-            
-            Patron->Browser: OPTION 2b - Log out of all clients.
-            Browser->Browser: Remove logged in cookie
-            Browser->DDB CMS: Request log out of all clients.
-            DDB CMS->login.bib.dk: Request - Single sign-out for all clients.
-            
-            login.bib.dk->login.bib.dk: List clients the patron is logged into.
-            login.bib.dk->login.bib.dk: Remove logged in cookie.
-            login.bib.dk->Ereolen: Request - Single sign-out.
-            Ereolen->Ereolen: Remove logged in cookie.
-            login.bib.dk->DDB CMS: Return logged out of all clients.
-            DDB CMS->Browser: If log out was initiated on a page \n under /user the patron i redirected to \n the frontpage of the same site, \n else the patron stays on the same page.         
-            Browser->Patron: Display - Logged out of all clients.
-        </div>
-        
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>
-    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
-    
-    <h2>Adgangsplatform - Single sign-out (PlantUML syntax)</h2>
-    
     <img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/rolfmadsen/rolfmadsen.github.com/master/plantuml/adgangsplatform_single-sign-out&fmt=svg" alt="PlantUML diagram af Adgangsplatformen - Single sign-out">
 
     <p>
-        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
-        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a></br>
-        Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a>
+        Documentation: <a href="http://plantuml.com/">http://plantuml.com/</a>
     </p>
     
 </body>
