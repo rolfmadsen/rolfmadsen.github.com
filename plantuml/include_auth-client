@@ -1,0 +1,9 @@
+@startuml
+title Client authentication
+
+    == Request client authentication ==
+    "Client"->"Open Platform": Request client authentication (Access token).
+    "Open Platform"->"Auth.bib.dk": Request verification of client authorization (Access token).
+    "Auth.bib.dk"->"Open Platform": Return authorized (Attributes)
+    "Open Platform"->"Client": Return authorized.
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+title Patron authentication.
+
+    "Patron"->"Browser": Log in.
+    "Browser"->"Client": Log in.
+    "Client"->"login.bib.dk": Request - Log in.
+    "login.bib.dk"->"Client": Authorize patron (access token).
+    "client"->"browser": Display - Patron logged in.
+    "Browser"->"Patron": Display - Patron logged in.
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+title Client authentication
+
+    == Request client authentication ==
+    "Client"->"Open Platform": Request client authentication (Access token).
+    "Open Platform"->"Auth.bib.dk": Request verification of client authorization (Access token).
+    "Auth.bib.dk"->"Open Platform": Return authorized (Attributes)
+    "Open Platform"->"Client": Return authorized.
+
+    == Request verification of client access token ==
+    "Client"->"Web service": Request authentication (Access token).
+    "Web service"->"Auth.dbc.dk": Request verification of client authorization (Access token).
+    "Auth.dbc.dk"->"Web service": Return authorized (Attributes).
+    "Web service"->"Client": Return authorized (Access token).
+@enduml
+
+@startuml
+Title DEPRECATED - Authenticate multiple client-server data flow
+
+"DDB CMS"->"Oauth2.login.bib.dk": Request authentication (Client_id + Client_secret).
+"Oauth2.login.bib.dk"->"DDB CMS": Return authenticated (Access token)
+"Patron"->"DDB CMS": Log ind.
+"DDB CMS"->"Oauth2.login.bib.dk": Redirect patron (Agency).
+"Oauth2.login.bib.dk"->"Patron": Prompt for log in.
+"Patron"->"Oauth2.login.bib.dk": Log in (CPR-nr. + PIN code).
+"Oauth2.login.bib.dk"->"DDB CMS": Redirect patron.
+
+"DDB CMS"->"Open Platform": Request client authentication (Access token).
+"Open Platform"->"Oauth2 authorization": Request verification of client authorization (Access token).
+"Oauth2 authorization"->"Open Platform": Return authorized (Attributes)
+"Open Platform"->"DDB CMS": Return authorized.
+
+"DDB CMS"->"Openlist": Request authentication (Access token).
+"Openlist"->"Oauth2 authorization": Request verification of client authorization (Access token).
+"Oauth2 authorization"->"Openlist": Return authorized (Attributes).
+"Openlist"->"DDB CMS": Return authorized.
+@enduml
