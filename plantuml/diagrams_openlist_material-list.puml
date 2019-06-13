@@ -3,7 +3,7 @@
 
             "DDB CMS"->"Oauth2.login.bib.dk": Request autentication.
             "Oauth2.login.bib.dk"->"DDB CMS": Authentication granted.
-            Note left of Oauth2.login.bib.dk: Return token.
+            Note left of "Oauth2.login.bib.dk": Return token.
             
             "DDB CMS"->"Openlist": Authenticate with token.
             "Openlist"->"Oauth2.login.bib.dk": Verify token.
