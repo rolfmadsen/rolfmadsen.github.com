@@ -7,7 +7,7 @@
             
             "DDB CMS"->"Openlist": Authenticate with token.
             "Openlist"->"Oauth2.login.bib.dk": Verify token.
-            "Oauth2.login.bib.dk-Openlist": Token verified.
+            "Oauth2.login.bib.dk"->"Openlist": Token verified.
             "Openlist"->"DDB CMS": Authenticated.
 
             "Patron"->"DDB CMS": Log in.
