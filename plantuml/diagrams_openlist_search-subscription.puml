@@ -2,46 +2,46 @@
  
     Title: 1. Patron adds search query to Search subscription service
 
-            Patron->DDB CMS: Click "Save search query" icon.
-            DDB CMS->Patron: Display modal window and promt user to enter title of search query.
-            Patron->DDB CMS: Enter title of search query and click Save button.
+            "Patron"->"DDB CMS": Click "Save search query" icon.
+            "DDB CMS"->"Patron": Display modal window and promt user to enter title of search query.
+            "Patron"->"DDB CMS": Enter title of search query and click Save button.
             
             group IF user is not logged in
-                DDB CMS->Adgangsplatformen: Redirect anonymous user to Adgangsplatformen.
-                Adgangsplatformen->Patron: Prompt for log in.
-                Patron->Adgangsplatformen: Enter credentials for log in.
-                Adgangsplatformen->Patron: Return authenticated.
-                Adgangsplatformen->DDB CMS: Redirect Patron to the same page in DDB CMS.
-                note left: Return Access token to DDB CMS.
+                "DDB CMS"->"Adgangsplatformen": Redirect anonymous user to Adgangsplatformen.
+                "Adgangsplatformen"->"Patron": Prompt for log in.
+                "Patron"->"Adgangsplatformen": Enter credentials for log in.
+                "Adgangsplatformen"->"Patron": Return authenticated.
+                "Adgangsplatformen"->"DDB CMS": Redirect Patron to the same page in DDB CMS.
+                Note left of "Adgangsplatformen": Return Access token to DDB CMS
                     
             Group ELSE
-                DDB CMS->Search subscription service: Post search query and title of search query.
-                Search subscription service->Opensearch service: GET search query .
-                note left: How does Openlist service assert changes to a search query?
-                Opensearch service->Search subscription service: Return search query.
-                Search subscription service->Search subscription service: Save results of search query.
+                "DDB CMS"->"Search subscription service": Post search query and title of search query.
+                "Search subscription service"->"Opensearch service": GET search query .
+                Note left of "Opensearch service": How does Openlist service assert changes to a search query?
+                "Opensearch service"->"Search subscription service": Return search query.
+                "Search subscription service"->"Search subscription service": Save results of search query.
             
 @enduml
 
 @startuml
     Title: 2. Search subscription service monitors changes in saved search queries.
   
-        Search subscription service->Search subscription service: Queue saved searches.
+        "Search subscription service"->"Search subscription service": Queue saved searches.
         
         group WHILE there are saved searches in queue
 
-            Search subscription service->Opensearch service: GET search query .
-            Opensearch service->Search subscription service: Return search query.
-            note left: How does Openlist service assert changes to a search query?
+            "Search subscription service"->"Opensearch service": GET search query .
+            "Opensearch service"->"Search subscription service": Return search query.
+            Note left of "Search subscription service": How does Openlist service assert changes to a search query?
 
             group IF there are no changes in the search response of a search query.
 
-            Search subscription service->Search subscription service: Set status to "No changes to search query".
+            "Search subscription service"->"Search subscription service": Set status to "No changes to search query".
 
             group ELSE save changes and notify of changes on next request from patron.
             
-                Search subscription service->Search subscription service: Save changes.
-                Search subscription service->Search subscription service: Changes status to "Changes to search query".
+                "Search subscription service"->"Search subscription service": Save changes.
+                "Search subscription service"->"Search subscription service": Changes status to "Changes to search query".
 
 @enduml
 
@@ -49,22 +49,22 @@
 
     Title: 3. Notify Patron of changes to saved searches.
         
-        Patron->DDB CMS: Log in
-        DDB CMS->Adgangsplatformen: Redirect anonymous user to Adgangsplatformen.
-        Patron->Adgangsplatformen: Enter credentials for log in.
-        Adgangsplatformen->DDB CMS: Patron authenticated
-        DDB CMS->DDB CMS: Redirect Patron to the same page in DDB CMS.
-        DDB CMS->Patron: Logged in.
-        note left: Return Access token to DDB CMS.
+        "Patron"->"DDB CMS": Log in
+        "DDB CMS"->"Adgangsplatformen": Redirect anonymous user to Adgangsplatformen.
+        "Patron"->"Adgangsplatformen": Enter credentials for log in.
+        "Adgangsplatformen"->"DDB CMS": Patron authenticated
+        "DDB CMS"->"DDB CMS": Redirect Patron to the same page in DDB CMS.
+        "DDB CMS"->"Patron": Logged in.
+        Note left of "Patron": Return Access token to DDB CMS.
 
-        DDB CMS->Search subscription service: Request notification of changes to saved search queries.
+        "DDB CMS"->"Search subscription service": Request notification of changes to saved search queries.
         
         group IF there are changes to saved search queries
         
-            Search subscription service->DDB CMS: Return list of saved search queries and mark the serch queries with changes with the status "Changes to search query".
+        "Search subscription service"->"DDB CMS": Return list of saved search queries and mark the serch queries with changes with the status "Changes to search query".
 
         group ELSE if there are no changes to saved search queries 
         
-            Search subscription service->DDB CMS: Return list of saved search queries and each search query should have the status "No changes to search query".
+        "Search subscription service"->"DDB CMS": Return list of saved search queries and each search query should have the status "No changes to search query".
 
 @enduml
