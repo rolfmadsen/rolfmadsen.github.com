@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DDB Architecture diagrams</title>
+</head>
+<body>
+
+    <h1>Search subscription flow</h1>
+ 
+    <h2>1: Add search query to Search subscription service</h2>
+
+    <div class="diagram">
+        Title: 1: Patron adds search query to Search subscription service
+
+            Patron->DDB CMS: Click "Save search query" icon.
+            DDB CMS->Patron: Display modal window and promt user to enter title of search query.
+            Patron->DDB CMS: Enter title of search query and click Save button.
+            
+            group IF user is not logged in
+                DDB CMS->Adgangsplatformen: Redirect anonymous user to Adgangsplatformen.
+                Adgangsplatformen->Patron: Prompt for log in.
+                Patron->Adgangsplatformen: Enter credentials for log in.
+                Adgangsplatformen->Patron: Return authenticated.
+                Adgangsplatformen->DDB CMS: Redirect Patron to the same page in DDB CMS.
+                note left: Return Access token to DDB CMS.
+                    
+            Group ELSE
+                DDB CMS->Search subscription service: Post search query and title of search query.
+                Search subscription service->Opensearch service: GET search query .
+                note left: How does Openlist service assert changes to a search query?
+                Opensearch service->Search subscription service: Return search query.
+                Search subscription service->Search subscription service: Save results of search query.
+            
+    </div>
+
+    <h2>2: Search subscriptions service monitors changes in saved search queries</h2>
+
+    <div class="diagram">
+        Title: 2: Search subscription service monitors changes in saved search queries.
+  
+        Search subscription service->Search subscription service: Queue saved searches.
+        
+        group WHILE there are saved searches in queue
+
+            Search subscription service->Opensearch service: GET search query .
+            Opensearch service->Search subscription service: Return search query.
+            note left: How does Openlist service assert changes to a search query?
+
+            group IF there are no changes in the search response of a search query.
+
+            Search subscription service->Search subscription service: Set status to "No changes to search query".
+
+            group ELSE save changes and notify of changes on next request from patron.
+            
+                Search subscription service->Search subscription service: Save changes.
+                Search subscription service->Search subscription service: Changes status to "Changes to search query".
+
+    </div>
+
+    <h2>3: Notify Patron of changes to saved searches</h2>
+
+    <div class="diagram">
+        Title: 3: Notify Patron of changes to saved searches.
+        
+        Patron->DDB CMS: Log in
+        DDB CMS->Adgangsplatformen: Redirect anonymous user to Adgangsplatformen.
+        Patron->Adgangsplatformen: Enter credentials for log in.
+        Adgangsplatformen->DDB CMS: Patron authenticated
+        DDB CMS->DDB CMS: Redirect Patron to the same page in DDB CMS.
+        DDB CMS->Patron: Logged in.
+        note left: Return Access token to DDB CMS.
+
+        DDB CMS->Search subscription service: Request notification of changes to saved search queries.
+        
+        group IF there are changes to saved search queries
+        
+            Search subscription service->DDB CMS: Return list of saved search queries and mark the serch queries with changes with the status "Changes to search query".
+
+        group ELSE if there are no changes to saved search queries 
+        
+            Search subscription service->DDB CMS: Return list of saved search queries and each search query should have the status "No changes to search query".
+
+    </div>
+ 
+    <p>
+        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
+        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
+    </p>
+    
+    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>  
+    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
+    
+</body>
+</html>
