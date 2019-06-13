@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>DDB Architecture diagrams</title>
-</head>
-<body>
+@startuml
 
-    <h1>Loan history dataflow</h1>
- 
-    <h2>1: Patron loan history acceptance flow</h2>
-
-    <div class="diagram">
-        Title: 1: Patron loan history acceptance flow
+    Title: 1: Patron loan history acceptance flow
 
             Patron->Biblioteket app: Log in.
             Biblioteket app->Adgangsplatform: Authenticate User.
@@ -19,25 +9,21 @@
             Biblioteket app->FBS: Request Patron ID. (preauthenticate endpoint using CPR).
             Adgangsplatform->Biblioteket app: GUID + CPR.
             Biblioteket app->Subscription WS: Save "Yes to save loan history" + CPR + GUID + Patron ID.
-            
-    </div>
 
-    <h2>2: Anonymous Loan history web service data accumulation flow</h2>
+@enduml
+@startuml
 
-    <div class="diagram">
-        Title: 2: Loan history web service data accumulation flow
-         
+    Title: 2. Anonymous Loan history web service data accumulation flow
+     
             FBS->Service Platform: Daily data dump of loan history (PatronID + PID).
             Service Platform->Danmarks Statistik: Data dump is "sanitized", enriched and anonymized.
             Danmarks Statistik->Faktor: Delivery of statistics based on loan history etc.
             Faktor->Anonymous Loan History WS: Export anonymized loan history.
 
-    </div>
+@enduml
+@startuml
 
-    <h2>3: Personal Loan history web service data accumulation flow</h2>
-
-    <div class="diagram">
-        Title: 3: Loan history web service data accumulation flow
+    Title: 3: Loan history web service data accumulation flow
          
             FBS->Service Platform: Daily data dump of loan history (PatronID + PID).
             Loanhistory WS->Service Platform: Request latest changes to loan history.
@@ -46,13 +32,10 @@
             Subscription WS->Loanhistory WS: Return Patron ID for each user with "Yes to save loan history".
             Loanhistory WS->Loanhistory WS: For each user: Extract and save loan history.
 
-    </div>
+@enduml
+@startuml
 
-
-    <h2>4: Patron recommendation flow</h2>
-
-    <div class="diagram">
-        Title:4:  Patron recommendation flow
+    Title: 4. Patron recommendation flow
 
             Patron->Biblioteket app: Request recommendations.
             Biblioteket app->Recommendation WS: Request recommendations for Patron X (Patron ID || GUID).
@@ -62,20 +45,4 @@
             Recommendation WS->Biblioteket app: Return recommendations for Patron X (List of PID's).
             Biblioteket app->Patron: Display recommendations.
 
-    </div>
- 
-    <p>
-        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
-        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
-    </p>
-    
-    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>  
-    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
-    
-</body>
-</html>
+@enduml

@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>DDB Architecture diagrams</title>
-</head>
-<body>
-
-    <h1>Search subscription flow</h1>
+@startuml
  
-    <h2>1: Add search query to Search subscription service</h2>
-
-    <div class="diagram">
-        Title: 1: Patron adds search query to Search subscription service
+    Title: 1. Patron adds search query to Search subscription service
 
             Patron->DDB CMS: Click "Save search query" icon.
             DDB CMS->Patron: Display modal window and promt user to enter title of search query.
@@ -31,12 +21,10 @@
                 Opensearch service->Search subscription service: Return search query.
                 Search subscription service->Search subscription service: Save results of search query.
             
-    </div>
+@enduml
 
-    <h2>2: Search subscriptions service monitors changes in saved search queries</h2>
-
-    <div class="diagram">
-        Title: 2: Search subscription service monitors changes in saved search queries.
+@startuml
+    Title: 2. Search subscription service monitors changes in saved search queries.
   
         Search subscription service->Search subscription service: Queue saved searches.
         
@@ -55,12 +43,11 @@
                 Search subscription service->Search subscription service: Save changes.
                 Search subscription service->Search subscription service: Changes status to "Changes to search query".
 
-    </div>
+@enduml
 
-    <h2>3: Notify Patron of changes to saved searches</h2>
+@startuml
 
-    <div class="diagram">
-        Title: 3: Notify Patron of changes to saved searches.
+    Title: 3. Notify Patron of changes to saved searches.
         
         Patron->DDB CMS: Log in
         DDB CMS->Adgangsplatformen: Redirect anonymous user to Adgangsplatformen.
@@ -80,20 +67,4 @@
         
             Search subscription service->DDB CMS: Return list of saved search queries and each search query should have the status "No changes to search query".
 
-    </div>
- 
-    <p>
-        BSD 2-Clause "Simplified" License: <a href="https://github.com/bramp/js-sequence-diagrams/blob/master/LICENCE">JS sequence diagram - Copyright © 2012-1017 - Andrew Brampton</a></br>
-        Source: <a href=https://github.com/bramp/js-sequence-diagrams>Github - js-sequence-diagrams</a>
-    </p>
-    
-    <p>Documentation: <a href="https://bramp.github.io/js-sequence-diagrams">https://bramp.github.io/js-sequence-diagrams</a></p>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'></script>  
-    <script>$(".diagram").sequenceDiagram({theme: 'simple'});</script>
-    
-</body>
-</html>
+@enduml
