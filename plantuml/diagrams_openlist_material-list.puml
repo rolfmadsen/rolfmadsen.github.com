@@ -1,9 +1,19 @@
 @startuml
     Title: 1. User generated material lists data flow
 
-    Note left of Patron: Prerequisite: Patron and Client are authenticated.
-            
+    Note left of Patron
+        Prerequisite: Patron 
+        is authenticated, 
+        else prompt for login.
+    end note
+
     "Patron"->"DDB CMS": Add material to Material List.
+    
+    Note left of "DDB CMS"
+        Prerequisite: Client
+        is authenticated.
+    end note
+
     "DDB CMS"->"Material List service": Post - GUID (User id) and PID (material id).
 
     group IF it is the first use of Material List.
