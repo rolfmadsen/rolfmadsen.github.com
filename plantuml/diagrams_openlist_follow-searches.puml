@@ -1,0 +1,83 @@
+@startuml
+ 
+    Title: 1. Patron adds search query to Follow Searches service
+
+            "Patron"->"DDB CMS": Click "Save search query" icon.
+            "DDB CMS"->"Patron": Display modal window and promt user to enter title of search query.
+            "Patron"->"DDB CMS": Enter title of search query and click Save button.
+            
+            group IF user is not logged in
+                "DDB CMS"->"Adgangsplatformen": Redirect anonymous user to Adgangsplatformen.
+                "Adgangsplatformen"->"Patron": Prompt for log in.
+                "Patron"->"Adgangsplatformen": Enter credentials for log in.
+                "Adgangsplatformen"->"Patron": Return authenticated.
+                "Adgangsplatformen"->"DDB CMS": Redirect Patron to the same page in DDB CMS.
+                Note left of "Adgangsplatformen": Return Access token to DDB CMS
+            end
+                    
+            Group ELSE if user is logged in
+                "DDB CMS"->"Follow Searches service": Post search query and title of search query.
+                "Follow Searches service"->"Opensearch service": GET search query and sort by date latest first.
+                "Opensearch service"->"Follow Searches service": Return search query.
+                "Follow Searches service"->"Follow Searches service": Save PID of first searchresult.
+            end
+            
+@enduml
+
+@startuml
+    Title: 2. Follow Searches service monitors changes in saved search queries.
+  
+        "Follow Searches service"->"Follow Searches service": Queue saved searches.
+        
+        group WHILE there are saved searches in queue
+
+            "Follow Searches service"->"Opensearch service": GET search query .
+            "Opensearch service"->"Follow Searches service": Return search query.
+            "Follow Searches service"->"Follow Searches service": Check if there are changes in the searchresult compared with saved PID of the latest search.
+
+            group IF there are no changes in the search response of a search query.
+                "Follow Searches service"->"Follow Searches service": Set status to "No changes to search query".
+            end
+
+            group ELSE save changes and notify of changes on next request from patron.
+                "Follow Searches service"->"Follow Searches service": Save the number of new materials.
+                "Follow Searches service"->"Follow Searches service": Save the PID's of the new materials.
+                "Follow Searches service"->"Follow Searches service": Changes status to "Changes to search query".
+            end
+
+        end
+@enduml
+
+@startuml
+
+    Title: 3. Notify Patron of changes to saved searches.
+        
+        Note left of Patron: Prerequisite Patron and Client are authenticated
+        "Patron"->"DDB CMS": Open DDB CMS
+        "DDB CMS"->"Follow Searches service": Request notification of changes to saved search queries.
+        
+        group IF there are changes to saved search queries
+            "Follow Searches service"->"DDB CMS": Return the search querie(s) with new results and number of new materials for each search query.
+        end
+
+        group ELSE if there are no changes to saved search queries 
+            "Follow Searches service"->"DDB CMS": Return "No changes to search query".
+        end
+
+@enduml
+
+@startuml
+
+    Title: 4. Request list of search queries.
+        
+        Note left of Patron: Prerequisite Patron and Client are authenticated
+
+        "Patron"->"DDB CMS": Open list of saved search queries.
+        "DDB CMS"->"Follow Searches service": Request pagination of search query 1-10.
+        "Follow Searches service"->"DDB CMS": Return the search queries 1<=10.
+
+        "Patron"->"DDB CMS": Open the next 10 saved search queries.
+        "DDB CMS"->"Follow Searches service": Request pagination of search query 11-20.
+        "Follow Searches service"->"DDB CMS": Return the search queries 11<=20.
+
+@enduml

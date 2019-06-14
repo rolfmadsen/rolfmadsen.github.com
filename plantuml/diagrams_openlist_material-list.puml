@@ -1,25 +1,18 @@
 @startuml
-        Title: 1. User generated material lists data flow
+    Title: 1. User generated material lists data flow
 
-            "DDB CMS"->"Oauth2.login.bib.dk": Request autentication.
-            "Oauth2.login.bib.dk"->"DDB CMS": Authentication granted.
-            Note left of "Oauth2.login.bib.dk": Return token.
+    Note left of Patron: Prerequisite: Patron and Client are authenticated.
             
-            "DDB CMS"->"Openlist": Authenticate with token.
-            "Openlist"->"Oauth2.login.bib.dk": Verify token.
-            "Oauth2.login.bib.dk"->"Openlist": Token verified.
-            "Openlist"->"DDB CMS": Authenticated.
+    "Patron"->"DDB CMS": Add material to Material List.
+    "DDB CMS"->"Material List service": Post - GUID (User id) and PID (material id).
 
-            "Patron"->"DDB CMS": Log in.
-            "DDB CMS"->"Adgangsplatform": Request - Authenticate User.
-            "Adgangsplatform"->"DDB CMS": Return - Authenticated user.
-            
-            Note left of Adgangsplatform: Return token.
-            
-            "DDB CMS"->"Patron": Display - Logged in.
-            
-            "Patron"->"DDB CMS": Add material to list.
-            "DDB CMS"->"Openlist": Post - GUID (User id) + PID (material id).
-            "Openlist"->"DDB CMS": Return - Material added to list.
+    group IF it is the first use of Material List.
+        "Material List service"->"Material List service": Create Material List identified by Patron GUID.
+        "Material List service"->"Material List service": Create Material List identified by Patron GUID.
+    end
+
+    group ELSE if Patron has used Material List earlier.
+        "Material List service"->"DDB CMS": Return - Material added to list.
+    end
             
 @enduml
