@@ -2,25 +2,17 @@
  
     Title: 1. Patron adds search query to Follow Searches service
 
+            Note left of Patron: Prerequisite Patron is authenticated, else promt for login.
             "Patron"->"DDB CMS": Click "Save search query" icon.
+
+            Note left of "DDB CMS": Prerequisite Client is authenticated.
             "DDB CMS"->"Patron": Display modal window and promt user to enter title of search query.
+
             "Patron"->"DDB CMS": Enter title of search query and click Save button.
-            
-            group IF user is not logged in
-                "DDB CMS"->"Adgangsplatformen": Redirect anonymous user to Adgangsplatformen.
-                "Adgangsplatformen"->"Patron": Prompt for log in.
-                "Patron"->"Adgangsplatformen": Enter credentials for log in.
-                "Adgangsplatformen"->"Patron": Return authenticated.
-                "Adgangsplatformen"->"DDB CMS": Redirect Patron to the same page in DDB CMS.
-                Note left of "Adgangsplatformen": Return Access token to DDB CMS
-            end
-                    
-            Group ELSE if user is logged in
-                "DDB CMS"->"Follow Searches service": Post search query and title of search query.
-                "Follow Searches service"->"Opensearch service": GET search query and sort by date latest first.
-                "Opensearch service"->"Follow Searches service": Return search query.
-                "Follow Searches service"->"Follow Searches service": Save PID of first searchresult.
-            end
+            "DDB CMS"->"Follow Searches service": Post search query and title of search query.
+            "Follow Searches service"->"Opensearch service": GET search query and sort by date latest first.
+            "Opensearch service"->"Follow Searches service": Return search query.
+            "Follow Searches service"->"Follow Searches service": Save PID of first searchresult.
             
 @enduml
 
@@ -52,8 +44,10 @@
 
     Title: 3. Notify Patron of changes to saved searches.
         
-        Note left of Patron: Prerequisite Patron and Client are authenticated
-        "Patron"->"DDB CMS": Open DDB CMS
+        Note left of Patron: Prerequisite Patron is authenticated, else prompt for login.
+        "Patron"->"DDB CMS": Open DDB CMS.
+
+        Note left of "DDB CMS": Prerequisite Client is authenticated.
         "DDB CMS"->"Follow Searches service": Request notification of changes to saved search queries.
         
         group IF there are changes to saved search queries
@@ -70,9 +64,10 @@
 
     Title: 4. Request list of search queries.
         
-        Note left of Patron: Prerequisite Patron and Client are authenticated
-
+        Note left of Patron: Prerequisite Patron is authenticated.
         "Patron"->"DDB CMS": Open list of saved search queries.
+
+        Note left of "DDB CMS": Prerequisite Client is authenticated.
         "DDB CMS"->"Follow Searches service": Request pagination of search query 1-10.
         "Follow Searches service"->"DDB CMS": Return the search queries 1<=10.
 
