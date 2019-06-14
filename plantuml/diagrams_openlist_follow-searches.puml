@@ -2,10 +2,19 @@
  
     Title: 1. Patron adds search query to Follow Searches service
 
-            Note left of Patron: Prerequisite Patron is authenticated, else promt for login.
+            Note left of Patron
+            Prerequisite Patron
+            is authenticated,
+            else promt for login.
+            end note
+
             "Patron"->"DDB CMS": Click "Save search query" icon.
 
-            Note left of "DDB CMS": Prerequisite Client is authenticated.
+            Note left of "DDB CMS"
+                Prerequisite Client
+                 is authenticated.
+            end note
+            
             "DDB CMS"->"Patron": Display modal window and promt user to enter title of search query.
 
             "Patron"->"DDB CMS": Enter title of search query and click Save button.
@@ -44,10 +53,19 @@
 
     Title: 3. Notify Patron of changes to saved searches.
         
-        Note left of Patron: Prerequisite Patron is authenticated, else prompt for login.
+        Note left of Patron 
+            Prerequisite Patron 
+            is authenticated, 
+            else prompt for login.
+        end note
+        
         "Patron"->"DDB CMS": Open DDB CMS.
 
-        Note left of "DDB CMS": Prerequisite Client is authenticated.
+        Note left of "DDB CMS"
+            Prerequisite Client
+             is authenticated.
+        end note
+        
         "DDB CMS"->"Follow Searches service": Request notification of changes to saved search queries.
         
         group IF there are changes to saved search queries
@@ -64,10 +82,18 @@
 
     Title: 4. Request list of search queries.
         
-        Note left of Patron: Prerequisite Patron is authenticated.
+        Note left of Patron
+            Prerequisite Patron
+            is authenticated.
+        end note
+
         "Patron"->"DDB CMS": Open list of saved search queries.
 
-        Note left of "DDB CMS": Prerequisite Client is authenticated.
+        Note left of "DDB CMS"
+            Prerequisite Client
+            is authenticated.
+        end note
+
         "DDB CMS"->"Follow Searches service": Request pagination of search query 1-10.
         "Follow Searches service"->"DDB CMS": Return the search queries 1<=10.
 
